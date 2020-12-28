@@ -3,9 +3,6 @@
 /**
  * Module dependencies.
  */
-// var app = require('../app');
-// var debug = require('debug')('homebrewer-api:server');
-// var http = require('http');
 "use strict";
 
 var _app = _interopRequireDefault(require("../app"));
