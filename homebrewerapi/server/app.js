@@ -9,7 +9,6 @@ import grainsRouter from './routes/grains'
 import hopsRouter from './routes/hops'
 import maltsRouter from './routes/malts'
 import yeastsRouter from './routes/yeasts'
-import Nano from 'nano';
 
 var app = express();
 
@@ -27,5 +26,4 @@ app.use('/hops', hopsRouter);
 app.use('/malts', maltsRouter);
 app.use('/yeasts', yeastsRouter);
 
-export const nano = Nano('http://localhost:5984');
 export default app;

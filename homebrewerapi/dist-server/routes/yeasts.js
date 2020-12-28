@@ -7,10 +7,13 @@ exports["default"] = void 0;
 
 var _express = require("express");
 
-// import { nano } from '../app'
-var router = (0, _express.Router)(); // var yeasts = nano.use('yeasts')
+var _db = require("../db");
 
+var router = (0, _express.Router)();
+
+var yeasts = _db.db.use('yeasts');
 /* GET users listing. */
+
 
 router.get('/', function (req, res, next) {
   res.send('in yeasts route');

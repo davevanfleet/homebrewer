@@ -1,8 +1,8 @@
 import { Router } from 'express';
-// import { nano } from '../app'
+import { db } from '../db'
 
-var router = Router();
-// var hops = nano.use('hops')
+const router = Router();
+const hops = db.use('hops')
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {

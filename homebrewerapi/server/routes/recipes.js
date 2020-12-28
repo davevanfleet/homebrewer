@@ -1,12 +1,12 @@
 import { Router } from 'express';
-// import { nano } from '../app'
+import { db } from '../db'
 
-var router = Router();
-// var recipes = nano.use('recipes')
+const router = Router();
+const recipes = db.use('recipes')
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  res.send('in recipes route, hello');
+  res.send('in recipes route');
 });
 
 export default router;

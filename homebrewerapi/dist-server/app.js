@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = exports.nano = void 0;
+exports["default"] = void 0;
 
 var _express = _interopRequireDefault(require("express"));
 
@@ -27,8 +27,6 @@ var _malts = _interopRequireDefault(require("./routes/malts"));
 
 var _yeasts = _interopRequireDefault(require("./routes/yeasts"));
 
-var _nano = _interopRequireDefault(require("nano"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var app = (0, _express["default"])();
@@ -46,7 +44,5 @@ app.use('/grains', _grains["default"]);
 app.use('/hops', _hops["default"]);
 app.use('/malts', _malts["default"]);
 app.use('/yeasts', _yeasts["default"]);
-var nano = (0, _nano["default"])('http://localhost:5984');
-exports.nano = nano;
 var _default = app;
 exports["default"] = _default;

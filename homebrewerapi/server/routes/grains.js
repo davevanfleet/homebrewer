@@ -1,8 +1,8 @@
 import { Router } from 'express';
-// import { nano } from '../app'
+import { db } from '../db'
 
-var router = Router();
-// var grains = nano.use('grains')
+const router = Router();
+let grains = db.use('grains')
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
