@@ -1,0 +1,13 @@
+version: "3.9"
+services:
+  api:
+    build: ./homebrewer-api
+    ports:
+      - "3000:3000"
+  couch:
+    environment:
+      - COUCHDB_USER=admin
+      - COUCHDB_PASSWORD=password
+    build: ./homebrewer-db
+    ports:
+       - "5984:5984"
