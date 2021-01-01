@@ -31,13 +31,9 @@ router.post('/', function(req, res, next) {
 /*------*/
 
 router.get('/', function(req, res, next) {
-    const allGrains = [];
     grains.list({include_docs: true})
         .then(body => {
-            body.rows.forEach(grain => {
-                allGrains.push(grain);
-            })
-            res.json({grains: allGrains});
+            res.json({grains: body})
         })
         .catch(error => {
             res.status(500).json({message: error});
