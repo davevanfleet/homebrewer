@@ -18,6 +18,7 @@ services:
       - CHOKIDAR_USEPOLLING=true
     ports:
       - "3000:3000"
+      - "9229:9229"
     links:
       - couch
     depends_on:

@@ -3,12 +3,12 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-var indexRouter = require('./routes/index');
-var grainsRouter = require('./routes/grains')
-var hopsRouter = require('./routes/hops')
-var maltsRouter = require('./routes/malts')
-var recipesRouter = require('./routes/recipes')
-var yeastsRouter = require('./routes/yeasts')
+var indexRouter = require('./api/index');
+var grainsRouter = require('./api/grainsController')
+var hopsRouter = require('./api/hopsController')
+var maltsRouter = require('./api/maltsController')
+var recipesRouter = require('./api/recipesController')
+var yeastsRouter = require('./api/yeastsController')
 
 
 
