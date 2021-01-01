@@ -88,7 +88,28 @@ router.put('/:grainId', function(req, res, next) {
 /* DESTROY */
 /*---------*/
 
-
+router.delete('/:grainId', function(req, res, next) {
+    let rev;
+    grains.get(req.params.grainId)
+        .then(body => {
+            rev = body._rev;
+            destroyGrain()
+        })
+        .catch(error => {
+            console.log(error)
+            res.json(error)
+        });
+    function destroyGrain(){
+        grains.destroy(req.params.grainId, rev)
+            .then(body => {
+                res.json(body);
+            })
+            .catch(error => {
+                console.log(error)
+                res.json(error)
+            });
+    }
+});
 
 
 module.exports = router;
