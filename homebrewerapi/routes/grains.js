@@ -16,7 +16,7 @@ router.post('/', function(req, res, next) {
     const grain = {
         name: body.name
     }
-    grains.insert({...grain})
+    grains.insert(grain)
         .then(body => {
             res.json({grain: body, message: "success"})
         })
@@ -35,28 +35,54 @@ router.get('/', function(req, res, next) {
     grains.list({include_docs: true})
         .then(body => {
             body.rows.forEach(grain => {
-                allGrains.push(grain)
+                allGrains.push(grain);
             })
             res.json({grains: allGrains});
         })
         .catch(error => {
-            console.log(error)
-            res.status(500).json({message: error})
-        })
+            res.status(500).json({message: error});
+        });
 });
 
 router.get('/:grainId', function(req, res, next) {
     const { grainId } = req.params;
     grains.get(grainId)
         .then(body => {
-            res.json({grain: body})
-        })
-})
+            res.json({grain: body});
+        });
+});
 
 
 /*--------*/
 /* UPDATE */
 /*--------*/
+
+router.put('/:grainId', function(req, res, next) {
+    const { grainId } = req.params;
+    let rev;
+    grains.get(grainId)
+        .then(body => {
+            rev = body._rev;
+            updateGrain()
+        });
+    
+    function updateGrain(){
+        const grain = {
+            _id: grainId,
+            name: req.body.name,
+            _rev: rev
+        };
+        debugger
+        grains.insert(grain)
+            .then(body => {
+                res.json({grain: body, message: "success"})
+            })
+            .catch(error => {
+                console.log(error)
+                res.statusCode(500).json({message: error})
+            })
+    }
+});
 
 
 /*---------*/
