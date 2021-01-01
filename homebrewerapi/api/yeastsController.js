@@ -1,4 +1,5 @@
 var express = require('express');
+var Yeast = require('../models/yeast')
 var router = express.Router();
 const db = require('nano')('http://admin:password@couch:5984');
 const yeasts  = db.use("yeasts");
@@ -13,9 +14,7 @@ const yeasts  = db.use("yeasts");
 
 router.post('/', function(req, res, next) {
     const body = req.body
-    const yeast = {
-        name: body.name
-    }
+    const yeast = new Yeast({name: body.name})
     yeasts.insert(yeast)
         .then(body => {
             res.json({yeast: body, message: "success"})
@@ -60,14 +59,15 @@ router.put('/:yeastId', function(req, res, next) {
         .then(body => {
             rev = body._rev;
             updateYeast()
+        })
+        .catch(error => {
+            console.log(error)
+            res.statusCode(500).json({message: error})
         });
     
     function updateYeast(){
-        const yeast = {
-            _id: yeastId,
-            name: req.body.name,
-            _rev: rev
-        };
+        const yeast = new Yeast({name: req.body.name, _id: yeastId, _rev: rev})
+        
         yeasts.insert(yeast)
             .then(body => {
                 res.json({yeast: body, message: "success"})

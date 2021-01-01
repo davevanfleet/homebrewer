@@ -1,5 +1,7 @@
-export default class Malt {
-    constructor(name) {
+class Malt {
+    constructor({name}) {
         this.name = name
     }
 }
+
+module.exports = Malt;

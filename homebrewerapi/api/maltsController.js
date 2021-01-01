@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var Malt = require('../models/malt')
 const db = require('nano')('http://admin:password@couch:5984');
 const malts  = db.use("malts");
 
@@ -13,9 +14,7 @@ const malts  = db.use("malts");
 
 router.post('/', function(req, res, next) {
     const body = req.body
-    const malt = {
-        name: body.name
-    }
+    const malt = new Malt({name: req.body.name})
     malts.insert(malt)
         .then(body => {
             res.json({malt: body, message: "success"})
@@ -63,11 +62,11 @@ router.put('/:maltId', function(req, res, next) {
         });
     
     function updateMalt(){
-        const malt = {
+        const malt = new Malt({
             _id: maltId,
             name: req.body.name,
             _rev: rev
-        };
+        });
         malts.insert(malt)
             .then(body => {
                 res.json({malt: body, message: "success"})

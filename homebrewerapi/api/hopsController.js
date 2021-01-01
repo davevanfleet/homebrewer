@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var Hop = require('../models/hop');
 const db = require('nano')('http://admin:password@couch:5984');
 const hops  = db.use("hops");
 
@@ -14,9 +15,9 @@ const hops  = db.use("hops");
 
 router.post('/', function(req, res, next) {
     const body = req.body
-    const hop = {
+    const hop = new Hop({
         name: body.name
-    }
+    });
     hops.insert(hop)
         .then(body => {
             res.json({hop: body, message: "success"})
@@ -64,11 +65,11 @@ router.put('/:hopId', function(req, res, next) {
         });
     
     function updateHop(){
-        const hop = {
+        const hop = new Hop({
             _id: hopId,
             name: req.body.name,
             _rev: rev
-        };
+        });
         hops.insert(hop)
             .then(body => {
                 res.json({hop: body, message: "success"})
@@ -108,7 +109,5 @@ router.delete('/:hopId', function(req, res, next) {
     }
 });
 
-
-module.exports = router;
 
 module.exports = router;

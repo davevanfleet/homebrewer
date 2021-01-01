@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var Grain = require('../models/grain.js');
 const db = require('nano')('http://admin:password@couch:5984');
 const grains  = db.use("grains");
 
@@ -13,9 +14,9 @@ const grains  = db.use("grains");
 
 router.post('/', function(req, res, next) {
     const body = req.body
-    const grain = {
+    const grain = new Grain({
         name: body.name
-    }
+    })
     grains.insert(grain)
         .then(body => {
             res.json({grain: body, message: "success"})
@@ -63,11 +64,11 @@ router.put('/:grainId', function(req, res, next) {
         });
     
     function updateGrain(){
-        const grain = {
+        const grain = new Grain({
             _id: grainId,
             name: req.body.name,
             _rev: rev
-        };
+        });
         grains.insert(grain)
             .then(body => {
                 res.json({grain: body, message: "success"})
