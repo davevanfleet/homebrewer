@@ -60,10 +60,10 @@ router.put('/:hopId', function(req, res, next) {
     hops.get(hopId)
         .then(body => {
             rev = body._rev;
-            updatehop()
+            updateHop()
         });
     
-    function updatehop(){
+    function updateHop(){
         const hop = {
             _id: hopId,
             name: req.body.name,
@@ -90,13 +90,13 @@ router.delete('/:hopId', function(req, res, next) {
     hops.get(req.params.hopId)
         .then(body => {
             rev = body._rev;
-            destroyhop()
+            destroyHop()
         })
         .catch(error => {
             console.log(error)
             res.json(error)
         });
-    function destroyhop(){
+    function destroyHop(){
         hops.destroy(req.params.hopId, rev)
             .then(body => {
                 res.json(body);

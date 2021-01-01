@@ -59,10 +59,10 @@ router.put('/:maltId', function(req, res, next) {
     malts.get(maltId)
         .then(body => {
             rev = body._rev;
-            updatemalt()
+            updateMalt()
         });
     
-    function updatemalt(){
+    function updateMalt(){
         const malt = {
             _id: maltId,
             name: req.body.name,
@@ -89,13 +89,13 @@ router.delete('/:maltId', function(req, res, next) {
     malts.get(req.params.maltId)
         .then(body => {
             rev = body._rev;
-            destroymalt()
+            destroyMalt()
         })
         .catch(error => {
             console.log(error)
             res.json(error)
         });
-    function destroymalt(){
+    function destroyMalt(){
         malts.destroy(req.params.maltId, rev)
             .then(body => {
                 res.json(body);

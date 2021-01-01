@@ -59,10 +59,10 @@ router.put('/:yeastId', function(req, res, next) {
     yeasts.get(yeastId)
         .then(body => {
             rev = body._rev;
-            updateyeast()
+            updateYeast()
         });
     
-    function updateyeast(){
+    function updateYeast(){
         const yeast = {
             _id: yeastId,
             name: req.body.name,
@@ -89,13 +89,13 @@ router.delete('/:yeastId', function(req, res, next) {
     yeasts.get(req.params.yeastId)
         .then(body => {
             rev = body._rev;
-            destroyyeast()
+            destroyYeast()
         })
         .catch(error => {
             console.log(error)
             res.json(error)
         });
-    function destroyyeast(){
+    function destroyYeast(){
         yeasts.destroy(req.params.yeastId, rev)
             .then(body => {
                 res.json(body);
