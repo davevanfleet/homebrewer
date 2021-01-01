@@ -72,7 +72,6 @@ router.put('/:grainId', function(req, res, next) {
             name: req.body.name,
             _rev: rev
         };
-        debugger
         grains.insert(grain)
             .then(body => {
                 res.json({grain: body, message: "success"})
