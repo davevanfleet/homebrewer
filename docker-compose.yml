@@ -1,13 +1,46 @@
 version: "3.9"
 services:
   couch:
+    container_name: homebrewer_couchdb
+    image: couchdb:3.1.0
+    restart: always
+    ports:
+    - 5984:5984
     environment:
+      - NODENAME=10.0.0.10
+      - ERL_FLAGS=-setcookie monster
       - COUCHDB_USER=admin
       - COUCHDB_PASSWORD=password
-    build: ./homebrewerdb
-    ports:
-       - "5984:5984"
+    volumes:
+    - ./config/couchdb:/opt/couchdb/etc/local.d
+    - ./data/couchdb/1:/opt/couchdb/data
+    networks:
+      default:
+      couchdb-net:
+        ipv4_address: 10.0.0.10
+  
+  clouseau:
+    image: openjdk:8
+    command: >
+      java -server
+      -classpath '/app/*'
+      -Xmx2G -Dsun.net.inetaddr.ttl=30
+      -Dsun.net.inetaddr.negative.ttl=30
+      -Dlog4j.configuration=file:/config/log4j.properties
+      -XX:OnOutOfMemoryError="kill -9 %p"
+      -XX:+UseConcMarkSweepGC
+      -XX:+CMSParallelRemarkEnabled com.cloudant.clouseau.Main /config/clouseau.ini
+    restart: always
+    depends_on:
+      - couch
+    volumes:
+      - ./config/clouseau:/config
+      - ./data/clouseau/1:/data
+      - ./clouseau-2.17.0:/app
+    network_mode: service:couch
+  
   api:
+    container_name: homebrewer_node_api
     tty: true
     stdin_open: true
     build: ./homebrewerapi
@@ -23,3 +56,11 @@ services:
       - couch
     depends_on:
       - couch
+
+networks:
+  couchdb-net:
+    name: couchdb-net
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.0.0.0/24

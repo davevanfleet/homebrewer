@@ -15,16 +15,14 @@ const hops  = db.use("hops");
 
 router.post('/', function(req, res, next) {
     const body = req.body
-    const hop = new Hop({
-        name: body.name
-    });
+    const hop = new Hop({...req.body});
     hops.insert(hop)
         .then(body => {
             res.json({hop: body, message: "success"})
         })
         .catch(error => {
             console.log(error)
-            res.statusCode(500).json({message: error})
+            res.status(500).json({message: error})
         })
 });
 
