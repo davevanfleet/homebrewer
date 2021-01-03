@@ -58,17 +58,19 @@ router.put('/:hopId', function(req, res, next) {
     let rev;
     hops.get(hopId)
         .then(body => {
-            rev = body._rev;
-            updateHop()
-        });
+            const prevHop = new Hop({...body})
+            updateHop(prevHop, req.body)
+        })
+        .catch(error => {
+            console.log(error)
+        })
     
-    function updateHop(){
-        const hop = new Hop({
-            _id: hopId,
-            name: req.body.name,
-            _rev: rev
-        });
-        hops.insert(hop)
+    function updateHop(prevHop, body){
+        const newHop = {
+            ...prevHop,
+            ...body
+        }
+        hops.insert(newHop)
             .then(body => {
                 res.json({hop: body, message: "success"})
             })

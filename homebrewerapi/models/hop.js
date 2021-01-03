@@ -1,5 +1,5 @@
 class Hop {
-    constructor({_id, _rev, name, alphaAcidLow, alphaAcidHigh, substitutes, desc, country, styles}) {
+    constructor({_id, _rev, name, alphaAcidLow, alphaAcidHigh, substitutes, desc, country, styles, forBittering, forAroma}) {
         this._id = _id
         this._rev = _rev
         this.name = name
@@ -9,6 +9,8 @@ class Hop {
         this.desc = desc
         this.country = country
         this.styles = styles
+        this.forBittering = forBittering
+        this.forAroma = forAroma
     }
 }
 
