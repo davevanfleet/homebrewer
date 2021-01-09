@@ -1,19 +1,37 @@
 version: "3.9"
 services:
+  traefik:
+    image: "traefik:v2.3"
+    container_name: "traefik"
+    command:
+      - "--log.level=DEBUG"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+    ports:
+      - "80:80"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+
   couch:
     container_name: homebrewer_couchdb
     image: couchdb:3.1.0
     restart: always
     ports:
-    - 5984:5984
+      - 5984:5984
     environment:
       - NODENAME=10.0.0.10
       - ERL_FLAGS=-setcookie monster
       - COUCHDB_USER=admin
       - COUCHDB_PASSWORD=password
     volumes:
-    - ./config/couchdb:/opt/couchdb/etc/local.d
-    - ./data/couchdb/1:/opt/couchdb/data
+      - ./config/couchdb:/opt/couchdb/etc/local.d
+      - ./data/couchdb/1:/opt/couchdb/data
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.db.rule=Host(`db.localhost`)"
+      - "traefik.http.routers.db.entrypoints=web"
     networks:
       default:
       couchdb-net:
@@ -56,6 +74,10 @@ services:
       - couch
     depends_on:
       - couch
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.api.rule=Host(`api.localhost`)"
+      - "traefik.http.routers.api.entrypoints=web"
 
 networks:
   couchdb-net:
