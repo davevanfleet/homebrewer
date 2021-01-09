@@ -4,7 +4,7 @@ services:
     image: "traefik:v2.3"
     container_name: "traefik"
     command:
-      - "--log.level=DEBUG"
+      # - "--log.level=DEBUG"
       - "--api.insecure=true"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
@@ -76,7 +76,7 @@ services:
       - couch
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.api.rule=Host(`api.localhost`)"
+      - "traefik.http.routers.api.rule=Host(`167.71.101.27`)"
       - "traefik.http.routers.api.entrypoints=web"
 
 networks:
