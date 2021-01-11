@@ -1,1 +1,1 @@
-{"_id": "_design/hops"}
+{"_id": "_design/hops", "views": {"all": "function(doc){ if(doc.type == 'hop'){ emit(doc.id, doc.name) }}"}, "_rev": "1-967a00dff5e02add41819138abb3284d"}
